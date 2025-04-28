@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from "zod"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -25,6 +25,10 @@ const formSchema = z.object({
 
 
 const SignUpForm = () => {
+  const navigate = useNavigate()
+
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
    // 1. Define your form.
    const form = useForm({
     resolver: zodResolver(formSchema),
@@ -36,10 +40,34 @@ const SignUpForm = () => {
   })
 
     // 2. Define a submit handler.
-    function onSubmit(values) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-      console.log(values)
+  async  function onSubmit(values) {
+      try {
+        setLoading(true)
+        setErrorMessage(null)
+
+        const res = await fetch("/api/auth/signup" ,{
+          method: "POST",
+          headers : {"Content-Type": "application/json"},
+          body: JSON.stringify(values)
+        })
+
+        const data = await res.json();
+
+        if (data.success === false) {
+          setLoading(false)
+
+          return setErrorMessage(data.message)
+        }
+
+        setLoading(false)
+
+        if(res.ok){
+         navigate("/sign-in")
+        }
+      } catch (error) {
+        setErrorMessage(error.message)
+        setLoading(false)
+      }
     }
 
   return (
@@ -71,7 +99,7 @@ const SignUpForm = () => {
 
           <div className='flex-1'>
           <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="username"
