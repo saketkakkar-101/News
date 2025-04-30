@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import GoogleAuth from "@/components/shared/GoogleAuth";
 
 const formSchema = z.object({
   username: z
@@ -27,6 +29,7 @@ const formSchema = z.object({
 });
 
 const SignUpForm = () => {
+  const {toast} = useToast()
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -57,7 +60,7 @@ const SignUpForm = () => {
 
       if (data.success === false) {
         setLoading(false);
-
+        toast({title: "Sign up failed! Please try again" })
         return setErrorMessage(data.message);
       }
 
@@ -65,10 +68,12 @@ const SignUpForm = () => {
 
       if (res.ok) {
         navigate("/sign-in");
+        toast({title: "Sign up Successful!" })
       }
     } catch (error) {
       setErrorMessage(error.message);
       setLoading(false);
+      toast({title: "Something went wrong!" })
     }
   }
 
@@ -161,9 +166,16 @@ const SignUpForm = () => {
                 )}
               />
 
-              <Button type="submit" className="bg-blue-500 w-full">
-                Submit
+              <Button type="submit" className="bg-blue-500 w-full" disabled={loading}>
+                {
+                  loading ? (
+                      <span className="animate-pulse">Loading...</span>
+                  ) : (
+                     <span>Sign Up</span>
+                  )
+                }
               </Button>
+              <GoogleAuth />
             </form>
           </Form>
 
@@ -173,6 +185,9 @@ const SignUpForm = () => {
               Sign In
             </Link>
           </div>
+
+            {errorMessage && <p className="mt-5 text-red-500">{errorMessage}</p>}
+
         </div>
       </div>
     </div>
