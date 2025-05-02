@@ -1,7 +1,11 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+
 import authRoutes from "./routes/auth.route.js"
+import userRoutes from "./routes/user.route.js"
+import cookieParser from "cookie-parser"
+
 dotenv.config()
 
 mongoose.connect(process.env.MONGO_URI)
@@ -14,12 +18,14 @@ mongoose.connect(process.env.MONGO_URI)
 const app = express();
 // for allowing json object in req body
 app.use(express.json())
+app.use(cookieParser())
 
  app.listen(5000 , ()=>{
    console.log("server is a running");
 })
 
 app.use("/api/auth" , authRoutes )
+app.use("/api/user" , userRoutes )
 
 app.use((err , req, res , next) => {
     const statusCode = err.statusCode || 500

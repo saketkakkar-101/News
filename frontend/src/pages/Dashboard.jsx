@@ -1,9 +1,38 @@
-import React from 'react'
+import BottomNavBar from "@/components/shared/BottomNavBar";
+import DashboardProfile from "@/components/shared/DashboardProfile";
+import DashboardSidebar from "@/components/shared/DashboardSidebar";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+const location = useLocation()
+const [tab, setTab] = useState("")
 
-export default Dashboard
+useEffect(() => {
+  const urlParams = new URLSearchParams(location.search)
+  const tabFromUrl = urlParams.get("tab")
+
+  // console.log(tabFromUrl);
+  if (tabFromUrl) {
+    setTab(tabFromUrl)
+  }
+}, [location.search])
+
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row w-full">
+      {/* sidebar */}
+      <div className="hidden md:block">
+        <DashboardSidebar />
+      </div>
+
+      <BottomNavBar />
+
+         {/* Profile */}
+          
+        <div className="w-full">{tab === "profile" && <DashboardProfile />}</div>
+
+    </div>
+  );
+};
+
+export default Dashboard;
