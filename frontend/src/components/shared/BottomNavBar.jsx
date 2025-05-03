@@ -1,8 +1,28 @@
+import { signOutSuccess } from '@/redux/user/userSlice'
 import React from 'react'
 import { FaHome, FaSignOutAlt, FaUserAlt } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const BottomNavBar = () => {
+  const dispatch = useDispatch()
+  const handleSignout = async() => {
+    try {
+      const res = await fetch("/api/user/signout" , {
+        method: "POST"
+      })
+      const data = await res.json()
+  
+      if (!res.ok) {
+        console.log(data.message);
+      } else{
+        dispatch(signOutSuccess())
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } 
+ 
   return (
     <nav 
     className='md:hidden fixed bottom-0 left-0 right-0 bg-slate-200 border-t 
@@ -18,7 +38,7 @@ const BottomNavBar = () => {
           </Link>
 
           <button 
-          className='flex flex-col items-center text-slate-800'>
+          className='flex flex-col items-center text-slate-800' onClick={handleSignout}>
             <FaSignOutAlt size={20}/>
             <span className='text-xs'>Logout</span>
           </button>
