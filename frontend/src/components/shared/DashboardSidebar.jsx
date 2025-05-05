@@ -2,6 +2,7 @@ import { signOutSuccess } from "@/redux/user/userSlice";
 import React from "react";
 import { FaSignOutAlt, FaUserAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import {IoIosCreate} from "react-icons/io"
 import { Link } from "react-router-dom";
 const DashboardSidebar = () => {
   const dispatch = useDispatch()
@@ -36,7 +37,7 @@ const DashboardSidebar = () => {
 
       {/* Navigation Links */}
       <nav className="flex-1 p-4">
-          <ul className="space-y-4">
+          <ul className="space-y-2">
              <li>
                 <Link to={"/dashboard?tab=profile"} 
                 className="flex items-center p-2 hover:bg-slate-300 rounded">
@@ -49,11 +50,13 @@ const DashboardSidebar = () => {
                <li>
                <Link to={"/create-post"} 
                className="flex items-center p-2 hover:bg-slate-300 rounded">
-                   <FaUserAlt className="mr-3"/>
-                   <span>Profile</span>
+                   <IoIosCreate className="mr-3"/>
+                   <span>Create Post</span>
                </Link>
             </li>
              )}
+
+             
           </ul>
 
 

@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 
 const DashboardProfile = () => {
-  const {currentUser, error} = useSelector((state) => state.user)
+  const {currentUser, error, loading} = useSelector((state) => state.user)
 
  const profilePicRef = useRef()
  const dispatch = useDispatch()
@@ -165,8 +165,10 @@ const handleSignout = async() => {
             onChange={hanldleChange}
             />
 
-            <Button type="submit" className="h-12 bg-green-600">
-              Update Profile
+            <Button type="submit" className="h-12 bg-green-600" disabled={loading}>
+              {
+                loading ? "Loading..." : "Update Profile"
+              }
             </Button>
 
       </form>
