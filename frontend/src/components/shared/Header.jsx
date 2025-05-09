@@ -11,31 +11,30 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { signOutSuccess } from "@/redux/user/userSlice";
 
-
 const Header = () => {
-  const dispatch = useDispatch()
-  const {currentUser} = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleSignout = async () => {
     try {
-      const res = await fetch("/api/user/signout" , {
-        method: "POST"
-      })
-      const data = await res.json()
-  
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+
       if (!res.ok) {
         console.log(data.message);
-      } else{
-        dispatch(signOutSuccess())
+      } else {
+        dispatch(signOutSuccess());
       }
     } catch (error) {
       console.log(error);
     }
-  }
-  
+  };
+
   return (
     <div>
       <header className="shadow-lg sticky">
@@ -44,17 +43,13 @@ const Header = () => {
           mx-auto p-4"
         >
           <Link to={"/"}>
-            <h1
-              className="font-bold text-xl sm:text-2xl flex flex-wrap"
-            >
+            <h1 className="font-bold text-xl sm:text-2xl flex flex-wrap">
               <span className="text-slate-500">Morning</span>
               <span className="text-slate-900">Dispatch</span>
             </h1>
           </Link>
 
-          <form
-            className="bg-slate-100 rounded-lg flex items-center p-3"
-          >
+          <form className="bg-slate-100 rounded-lg flex items-center p-3">
             <input
               type="text"
               placeholder="Search..."
@@ -67,9 +62,7 @@ const Header = () => {
           </form>
           <ul className="flex gap-4">
             <Link to={"/"}>
-              <li
-                className="hidden lg:inline text-slate-700 hover:underline"
-              >
+              <li className="hidden lg:inline text-slate-700 hover:underline">
                 Home
               </li>
             </Link>
@@ -91,44 +84,45 @@ const Header = () => {
             </Link>
           </ul>
 
-         {currentUser ? (
+          {currentUser ? (
             <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div>
-                <img 
-                src={currentUser.profilePicture}
-                alt="user photo"
-                className="w-10 h-10 rounded-full"/>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-60">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
-              <DropdownMenuSeparator className="bg-gray-400"/>
-
-              <DropdownMenuItem className="block font-semibold text-sm">
-                <div className="flex flex-col gap-1">
-                  <span>@{currentUser.username}</span>
-                  <span>@{currentUser.email}</span>
+              <DropdownMenuTrigger asChild>
+                <div>
+                  <img
+                    src={currentUser.profilePicture}
+                    alt="user photo"
+                    className="w-10 h-10 rounded-full"
+                  />
                 </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="font-semibold mt-2">
-                <Link to="/dashboard?tab=profile">Profile</Link>
-              </DropdownMenuItem>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-60">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
-              <DropdownMenuItem className="font-semibold mt-2" onClick={handleSignout}>
-                Sign Out
+                <DropdownMenuSeparator className="bg-gray-400" />
+
+                <DropdownMenuItem className="block font-semibold text-sm">
+                  <div className="flex flex-col gap-1">
+                    <span>@{currentUser.username}</span>
+                    <span>@{currentUser.email}</span>
+                  </div>
                 </DropdownMenuItem>
-              
-            </DropdownMenuContent>
-          </DropdownMenu>
-          
-         ) : 
-         (
-          <Link to={"/sign-in"}>
-          <Button>Sign In</Button>
-        </Link>
-         )}
+                <DropdownMenuItem className="font-semibold mt-2">
+                  <Link to="/dashboard?tab=profile">Profile</Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  className="font-semibold mt-2"
+                  onClick={handleSignout}
+                >
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to={"/sign-in"}>
+              <Button>Sign In</Button>
+            </Link>
+          )}
         </div>
       </header>
     </div>
