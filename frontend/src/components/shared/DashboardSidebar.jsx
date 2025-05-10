@@ -1,6 +1,6 @@
 import { signOutSuccess } from "@/redux/user/userSlice";
 import React from "react";
-import { FaSignOutAlt, FaUserAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaUserAlt, FaUsers } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {IoIosCreate, IoIosDocument} from "react-icons/io"
 import { Link } from "react-router-dom";
@@ -64,6 +64,20 @@ const DashboardSidebar = () => {
                    <span>Your articles</span>
                </Link>
             </li>
+
+            
+             )}
+
+{currentUser && currentUser.isAdmin && (
+               <li>
+               <Link to={"/dashboard?tab=users"} 
+               className="flex items-center p-2 hover:bg-slate-300 rounded">
+                   <FaUsers className="mr-3"/>
+                   <span>All Users</span>
+               </Link>
+            </li>
+
+            
              )}
 
              

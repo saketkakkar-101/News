@@ -2,6 +2,7 @@ import BottomNavBar from "@/components/shared/BottomNavBar";
 import DashboardPosts from "@/components/shared/DashboardPosts";
 import DashboardProfile from "@/components/shared/DashboardProfile";
 import DashboardSidebar from "@/components/shared/DashboardSidebar";
+import DashboardUsers from "@/components/shared/DashboardUsers";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -32,10 +33,10 @@ useEffect(() => {
           
         <div className="w-full">
           {tab === "profile" && <DashboardProfile />}
-
-{/* news articles */}
-
+         {/* news articles */}
         {tab === "posts" && <DashboardPosts />}
+        {/* news articles */}
+        {tab === "users" && <DashboardUsers />}
         </div>
 
     </div>
@@ -43,3 +44,5 @@ useEffect(() => {
 };
 
 export default Dashboard;
+
+

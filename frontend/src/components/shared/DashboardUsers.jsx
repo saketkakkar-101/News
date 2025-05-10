@@ -4,26 +4,29 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Link } from 'react-router-dom'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
+import { FaCheck } from 'react-icons/fa'
 
-const DashboardPosts = () => {
+import {RxCross2} from 'react-icons/rx'
+
+const DashboardUsers = () => {
 const {currentUser} = useSelector((state) => state.user)
-const [userPosts, setuserPosts] = useState([])
+const [users, setUsers] = useState([])
 
 // console.log(userPosts);
 
 const [showMore, setShowMore] = useState(true)
-const [postIdToDelete, setPostIdToDelete] = useState("")
+const [userIdToDelete, setUserIdToDelete] = useState("")
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchUsers = async () => {
       try {
-        const res = await fetch( `/api/post/getposts?userId=${currentUser._id}`)
+        const res = await fetch( `/api/user/getusers`)
  const data = await res.json()
 
  if (res.ok) {
-  setuserPosts(data.posts)
+  setUsers(data.users)
 
-  if (data.posts.length < 9) {
+  if (data.users.length < 9) {
     setShowMore(false)
   }
  }
@@ -34,23 +37,23 @@ const [postIdToDelete, setPostIdToDelete] = useState("")
     }
 
     if (currentUser.isAdmin) {
-      fetchPosts()
+      fetchUsers()
     }
   }, [currentUser._id])
 
 const handleShowMore = async() => {
-const startIndex = userPosts.length 
+const startIndex = users.length 
 
 try {
-  const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`)
+  const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`)
 
 
   const data =await res.json()
 
 if (res.ok) {
-  setuserPosts((prev) => [...prev, ...data.posts])
+  setUsers((prev) => [...prev, ...data.users])
 
-  if (data.posts.length < 9) {
+  if (data.users.length < 9) {
     setShowMore(false)
   }
 }
@@ -60,70 +63,67 @@ if (res.ok) {
 }
 }
 
-const handleDeletePost = async() => {
-  // console.log(postIdToDelete);
+const handleDeleteUser = async() => {
 try {
-  const res = await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}` ,{
-    method : "DELETE"
-  })
+    const res = await fetch(`/api/user/delete/${userIdToDelete}` , {
+        method : "DELETE"
+    })
+    const data = await res.json()
 
-const data = await res.json()
-if (!res.ok) {
-  console.log(data.message);
-} else {
-  setuserPosts((prev) => 
-  prev.filter((post) => post._id !== postIdToDelete)
-  )
+if (res.ok) {
+    setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete))
+}else {
+    console.log(data.message);
 }
-
 
 } catch (error) {
-  console.log(error.message);
+    console.log(error.message);
 }
-
 }
 
   return (
     <div className='flex flex-col items-center justify-center w-full p-3'>
 {
-  currentUser.isAdmin && userPosts.length > 0 ? (
+  currentUser.isAdmin && users.length > 0 ? (
     <>
     <Table>
-    <TableCaption>A list of your published articles.</TableCaption>
+    <TableCaption>A list of your recent subscribers.</TableCaption>
 
     <TableHeader>
     <TableRow>
-          <TableHead className="w-[200px]">Date Updated</TableHead>
-          <TableHead>Post Image</TableHead>
-          <TableHead>Post Title</TableHead>
-          <TableHead>Category</TableHead>
+          <TableHead className="w-[200px]">Joined On</TableHead>
+          <TableHead>User Image</TableHead>
+          <TableHead>Username</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Admin</TableHead>
           <TableHead>Delete</TableHead>
-          <TableHead>Edit</TableHead>
         </TableRow>
     </TableHeader>
 
-{userPosts.map((post) => (
- <TableBody className="divide-y" key={post._id}>
+{users.map((user) => (
+ <TableBody className="divide-y" key={user._id}>
    <TableRow>
-   <TableCell >{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
-   <TableCell >{<Link to={`/post/${post.slug}`}>
-    <img src={post.image} alt={post.title} className='w-20 h-10 object-cover bg-gray-500'/>
-    </Link>}
+   <TableCell >{new Date(user.createdAt).toLocaleDateString()}</TableCell>
+   <TableCell >{
+    <img src={user.profilePicture} alt={user.username} className='w-10 h-10 object-cover bg-gray-500 rounded-full'/>
+    }
     </TableCell>
 
     <TableCell >
-      {<Link to={`/post/${post.slug}`}>
-       {post.title}
-    </Link>}
+     {user.username}
     </TableCell>
 
-    <TableCell >  {post.category} </TableCell>
+    <TableCell >  {user.email} </TableCell>
+
+    <TableCell >
+         {user.isAdmin ? (<FaCheck className='text-green-600'/>) : (<RxCross2 className='text-red-600'/>)}
+    </TableCell>
 
     <TableCell >
     <AlertDialog>
          <AlertDialogTrigger asChild>
          <span onClick={() => {
-          setPostIdToDelete(post._id)
+          setUserIdToDelete(user._id)
          }} className='font-medium text-red-600 hover:underline cursor-pointer'>Delete</span>
          </AlertDialogTrigger>
 
@@ -133,13 +133,13 @@ if (!res.ok) {
 
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            post and remove your data from our servers.
+            post and remove subscriber data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-600" onClick={handleDeletePost}>Continue</AlertDialogAction>
+          <AlertDialogAction className="bg-red-600" onClick={handleDeleteUser}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
 
@@ -148,12 +148,7 @@ if (!res.ok) {
           
     </TableCell>
 
-    <TableCell >
-
-    <Link to={`/update-post/${post._id}`} className='font-medium cursor-pointer hover:underline text-green-600'>
-      <span>Edit</span>
-    </Link>
-    </TableCell>
+  
 
    </TableRow>
  </TableBody>
@@ -167,11 +162,11 @@ if (!res.ok) {
     )}
     </>
   ) : (
-    <p>You have no posts yet!</p>
+    <p>You have no subscribers yet!</p>
   )
 }
     </div>
   )
 }
 
-export default DashboardPosts
+export default DashboardUsers
