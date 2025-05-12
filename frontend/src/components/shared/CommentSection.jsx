@@ -3,14 +3,46 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
+import { useToast } from '@/hooks/use-toast'
 
-const CommentSection = () => {
+const CommentSection = ({postId}) => {
     const {currentUser} = useSelector(state => state.user)
-
+  const {toast} = useToast()
 const [comment , setComment] = useState("")
 
-const handleSubmit = async () => {
-    
+const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (comment.length > 200) {
+      toast({title: "Comment length must be lower than or equal to 200 characters"})
+      return
+    }
+
+try {
+  const res = await fetch("/api/comment/create" , {
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json"
+    }, body: JSON.stringify({
+      content : comment,
+      postId,
+      userId : currentUser._id
+    })
+  })
+
+const data = await res.json()
+
+if(res.ok){
+  toast({title : "Comment Successfully!"})
+  setComment("")
+}
+
+} catch (error) {
+  console.log(error);
+  toast({title : "Something went wrong! please try again"})
+  
+}
+
 }
 
   return (
