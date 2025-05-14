@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,21 @@ import { signOutSuccess } from "@/redux/user/userSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const location = useLocation()
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate()
+
+const [searchterm, setSearchTerm] = useState("")
+// console.log(searchterm);
+
+useEffect(() => {
+  const urlParams = new URLSearchParams(location.search)
+  const searchTermFromUrl = urlParams.get("searchTerm")
+
+  if (searchTermFromUrl) {
+    setSearchTerm(searchTermFromUrl)
+  }
+},[location.search])
 
   const handleSignout = async () => {
     try {
@@ -35,6 +49,17 @@ const Header = () => {
     }
   };
 
+const handleSubmit = (e) => {
+  e.preventDefault()
+
+  const urlParams = new URLSearchParams(location.search)
+  urlParams.set("searchTerm", searchterm)
+
+  const searchQuery = urlParams.toString()
+
+  navigate(`/search/${searchQuery}`)
+}
+
   return (
     <div>
       <header className="shadow-lg sticky">
@@ -49,11 +74,15 @@ const Header = () => {
             </h1>
           </Link>
 
-          <form className="bg-slate-100 rounded-lg flex items-center p-3">
+          <form className="bg-slate-100 rounded-lg flex items-center p-3"
+          onSubmit={handleSubmit}
+          >
             <input
               type="text"
               placeholder="Search..."
               className="focus:outline-none bg-transparent w-24 sm:w-64"
+              value={searchterm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             <button>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
-import { Link } from 'react-router-dom'
+
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
 import { FaCheck } from 'react-icons/fa'
@@ -10,23 +10,23 @@ import {RxCross2} from 'react-icons/rx'
 
 const DashboardComments = () => {
 const {currentUser} = useSelector((state) => state.user)
-const [users, setUsers] = useState([])
+const [comments, setComments] = useState([])
 
 // console.log(userPosts);
 
 const [showMore, setShowMore] = useState(true)
-const [userIdToDelete, setUserIdToDelete] = useState("")
+const [commentIdToDelete, setCommentIdToDelete] = useState("")
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchComments = async () => {
       try {
-        const res = await fetch( `/api/user/getusers`)
+        const res = await fetch( `/api/comment/getcomments`)
  const data = await res.json()
 
  if (res.ok) {
-  setUsers(data.users)
+  setComments(data.comments)
 
-  if (data.users.length < 9) {
+  if (data.comments.length < 9) {
     setShowMore(false)
   }
  }
@@ -37,23 +37,23 @@ const [userIdToDelete, setUserIdToDelete] = useState("")
     }
 
     if (currentUser.isAdmin) {
-      fetchUsers()
+      fetchComments()
     }
   }, [currentUser._id])
 
 const handleShowMore = async() => {
-const startIndex = users.length 
+const startIndex = comments.length 
 
 try {
-  const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`)
+  const res = await fetch(`/api/comment/getcomments?startIndex=${startIndex}`)
 
 
   const data =await res.json()
 
 if (res.ok) {
-  setUsers((prev) => [...prev, ...data.users])
+  setComments((prev) => [...prev, ...data.comments])
 
-  if (data.users.length < 9) {
+  if (data.comments.length < 9) {
     setShowMore(false)
   }
 }
@@ -63,15 +63,15 @@ if (res.ok) {
 }
 }
 
-const handleDeleteUser = async() => {
+const handleDeleteComment = async() => {
 try {
-    const res = await fetch(`/api/user/delete/${userIdToDelete}` , {
+    const res = await fetch(`/api/comment/deleteComment/${commentIdToDelete}` , {
         method : "DELETE"
     })
     const data = await res.json()
 
 if (res.ok) {
-    setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete))
+    setComments((prev) => prev.filter((comment) => comment._id !== commentIdToDelete))
 }else {
     console.log(data.message);
 }
@@ -84,46 +84,38 @@ if (res.ok) {
   return (
     <div className='flex flex-col items-center justify-center w-full p-3'>
 {
-  currentUser.isAdmin && users.length > 0 ? (
+  currentUser.isAdmin && comments.length > 0 ? (
     <>
     <Table>
-    <TableCaption>A list of your recent subscribers.</TableCaption>
+    <TableCaption>A list of your recent comments.</TableCaption>
 
     <TableHeader>
     <TableRow>
-          <TableHead className="w-[200px]">Joined On</TableHead>
-          <TableHead>User Image</TableHead>
-          <TableHead>Username</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Admin</TableHead>
+          <TableHead className="w-[200px]">Date Updated</TableHead>
+          <TableHead>Comments</TableHead>
+          <TableHead>Number of Likes</TableHead>
+          <TableHead>postId</TableHead>
+          <TableHead>UserId</TableHead>
           <TableHead>Delete</TableHead>
         </TableRow>
     </TableHeader>
 
-{users.map((user) => (
- <TableBody className="divide-y" key={user._id}>
+{comments.map((comment) => (
+ <TableBody className="divide-y" key={comment._id}>
    <TableRow>
-   <TableCell >{new Date(user.createdAt).toLocaleDateString()}</TableCell>
-   <TableCell >{
-    <img src={user.profilePicture} alt={user.username} className='w-10 h-10 object-cover bg-gray-500 rounded-full'/>
-    }
-    </TableCell>
+   <TableCell >{new Date(comment.updatedAt).toLocaleDateString()}</TableCell>
+   <TableCell > {comment.content} </TableCell>
 
-    <TableCell >
-     {user.username}
-    </TableCell>
+    <TableCell > {comment.numberOfLikes}</TableCell>
 
-    <TableCell >  {user.email} </TableCell>
-
-    <TableCell >
-         {user.isAdmin ? (<FaCheck className='text-green-600'/>) : (<RxCross2 className='text-red-600'/>)}
-    </TableCell>
+    <TableCell >  {comment.postId} </TableCell>
+    <TableCell >  {comment.userId} </TableCell>
 
     <TableCell >
     <AlertDialog>
          <AlertDialogTrigger asChild>
          <span onClick={() => {
-          setUserIdToDelete(user._id)
+          setCommentIdToDelete(comment._id)
          }} className='font-medium text-red-600 hover:underline cursor-pointer'>Delete</span>
          </AlertDialogTrigger>
 
@@ -133,13 +125,13 @@ if (res.ok) {
 
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            post and remove subscriber data from our servers.
+            comment and remove subscriber data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-600" onClick={handleDeleteUser}>Continue</AlertDialogAction>
+          <AlertDialogAction className="bg-red-600" onClick={handleDeleteComment}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
 
@@ -162,7 +154,7 @@ if (res.ok) {
     )}
     </>
   ) : (
-    <p>You have no subscribers yet!</p>
+    <p>You have no comments yet!</p>
   )
 }
     </div>

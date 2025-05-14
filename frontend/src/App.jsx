@@ -17,6 +17,8 @@ import AdminPrivateRoute from './components/shared/AdminPrivateRoute'
 import EditPost from './pages/EditPost'
 import PostDetails from './pages/PostDetails'
 import ScrollToTop from './components/shared/ScrollToTop'
+import Search from './pages/Search'
+
 
 const App = () => {
   return (
@@ -30,7 +32,8 @@ const App = () => {
 
    <Route path='/' element={<Home/>}/>
    <Route path='/about' element={<About/>}/>
-
+   <Route path='/search' element={<Search/>}/>
+   
    <Route element={<PrivateRoute/>}>
    <Route path='/dashboard' element={<Dashboard/>}/>
    </Route>
