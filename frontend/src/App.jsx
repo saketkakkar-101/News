@@ -43,7 +43,7 @@ const App = () => {
    <Route path='/update-post/:postId' element={<EditPost/>}/>
    </Route>
 
-   <Route path='/news' element={<NewsArticles/>}/>
+   <Route path='/news' element={<Search/>}/>
    <Route path='/post/:postSlug' element={<PostDetails/>}/>
 </Routes>
 
