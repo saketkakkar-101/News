@@ -60,7 +60,8 @@ const CreatePost = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/create`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/create`, {
+
 
         method: "POST",
         headers: { "Content-Type": "application/json" },

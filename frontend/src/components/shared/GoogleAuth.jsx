@@ -65,7 +65,8 @@ const GoogleAuth = () => {
     try {
       const firebaseResponse = await signInWithPopup(auth, provider)
 
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/google`, {
+     const res = await fetch(`https://news-phi-rose-76.vercel.app/api/auth/google`, {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

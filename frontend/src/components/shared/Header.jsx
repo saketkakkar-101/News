@@ -34,7 +34,8 @@ useEffect(() => {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/signout`, {
+    const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/signout`, {
+
       method: "POST",
       credentials: "include", // Required for cookies to be sent
     });

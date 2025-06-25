@@ -11,7 +11,8 @@ const [posts, setPosts] = useState([])
 
   useEffect(() => {
     const fetchPosts = async() => {
-       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getPosts?limit=6`);
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/getPosts?limit=6`);
+
 
 
        const data = await res.json()

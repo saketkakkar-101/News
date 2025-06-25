@@ -48,7 +48,8 @@ const location = useLocation()
 
       const searchQuery = urlParams.toString()
 
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getposts?${searchQuery}`);
+      const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/getposts?${searchQuery}`);
+
 
 
       if (!res.ok) {
@@ -101,7 +102,8 @@ const handleShowMore = async () => {
 
   const searchQuery = urlParams.toString()
 
-  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getposts?${searchQuery}`);
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/getposts?${searchQuery}`);
+
 
 
   if (!res.ok) {

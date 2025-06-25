@@ -180,9 +180,11 @@ const DashboardUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/getusers`, {
-          credentials: 'include',
-        });
+// 🔁 Get Users
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/getusers`, {
+  credentials: 'include',
+});
+
         const data = await res.json();
 
         if (res.ok) {
@@ -203,9 +205,11 @@ const DashboardUsers = () => {
     const startIndex = users.length;
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/getusers?startIndex=${startIndex}`, {
-        credentials: 'include',
-      });
+      // 🔁 Show More Users
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/getusers?startIndex=${startIndex}`, {
+  credentials: 'include',
+});
+
       const data = await res.json();
 
       if (res.ok) {
@@ -219,10 +223,12 @@ const DashboardUsers = () => {
 
   const handleDeleteUser = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/delete/${userIdToDelete}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+      // 🔁 Delete User
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/delete/${userIdToDelete}`, {
+  method: 'DELETE',
+  credentials: 'include',
+});
+
       const data = await res.json();
 
       if (res.ok) {

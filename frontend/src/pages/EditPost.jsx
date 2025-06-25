@@ -32,7 +32,8 @@ const EditPost = () => {
   useEffect(() => {
     try {
       const fetchPost = async () => {
-const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getposts?postId=${postId}`);
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/getposts?postId=${postId}`);
+
 
 
         const data = await res.json();
@@ -92,8 +93,9 @@ const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getposts?p
     e.preventDefault();
 
     try {
-      const res = await fetch(
-  `${import.meta.env.VITE_BACKEND_URL}/api/post/updatepost/${postId}/${currentUser._id}`,
+const res = await fetch(
+  `https://news-phi-rose-76.vercel.app/api/post/updatepost/${postId}/${currentUser._id}`,
+
 
         {
           method: "PUT",

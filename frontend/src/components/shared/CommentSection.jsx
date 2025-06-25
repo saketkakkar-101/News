@@ -24,7 +24,9 @@ const handleSubmit = async (e) => {
     }
 
 try {
-  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/getPostComments/${postId}`, {
+// Submit comment
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/getPostComments/${postId}`, {
+
 
   method: "POST",
   headers: {
@@ -122,7 +124,9 @@ const handleDelete = async(commentId) => {
       navigate("/sign-in")
       return
     }
-const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/deleteComment/${commentId}`, {
+// Delete comment
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/deleteComment/${commentId}`, {
+
 
   method: "DELETE",
   credentials: "include"
