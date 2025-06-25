@@ -58,7 +58,16 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors())
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: "https://news-bi1a.vercel.app", // 👈 your actual frontend deployed URL
+    credentials: true,
+  })
+);
+
+
 app.use(express.json());
 app.use(cookieParser());
 
