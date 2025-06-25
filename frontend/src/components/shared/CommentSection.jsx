@@ -24,7 +24,8 @@ const handleSubmit = async (e) => {
     }
 
 try {
-  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/create`, {
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/getPostComments/${postId}`, {
+
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -57,7 +58,8 @@ if(res.ok){
 useEffect(() => {
   const getComments = async() => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/getPostComments/${postId}`, {
+    const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/getPostComments/${postId}`, {
+
   credentials: "include"
 })
 
@@ -81,8 +83,8 @@ const handleLike = async(commentId) => {
       navigate("/sign-in")
       return
     }
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/likeComment/${commentId}`, {
 
-   const res = await fetch(`/api/comment/likeComment/${commentId}`, {
   method: "PUT"
 })
 
@@ -120,8 +122,8 @@ const handleDelete = async(commentId) => {
       navigate("/sign-in")
       return
     }
+const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/deleteComment/${commentId}`, {
 
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/deleteComment/${commentId}`, {
   method: "DELETE",
   credentials: "include"
 })

@@ -20,7 +20,8 @@ const [commentIdToDelete, setCommentIdToDelete] = useState("")
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/getcomments`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/getcomments`, {
+
   credentials: "include",
 });
 
@@ -48,7 +49,8 @@ const handleShowMore = async() => {
 const startIndex = comments.length 
 
 try {
- const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/getcomments?startIndex=${startIndex}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/getcomments?startIndex=${startIndex}`, {
+
   credentials: "include",
 });
 
@@ -71,7 +73,8 @@ if (res.ok) {
 
 const handleDeleteComment = async() => {
 try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/deleteComment/${commentIdToDelete}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/deleteComment/${commentIdToDelete}`, {
+
   method: "DELETE",
   credentials: "include",
 });

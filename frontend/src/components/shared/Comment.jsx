@@ -24,34 +24,32 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   const { currentUser } = useSelector((state) => state.user);
 
   // console.log(user);
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/${comment.userId}`, {
+useEffect(() => {
+  const getUser = async () => {
+    try {
+      const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/${comment.userId}`, {
         credentials: "include",
       });
-        const data = await res.json();
+      const data = await res.json();
 
-        if (res.ok) {
-          setUser(data);
-        }
-      } catch (error) {
-        console.log(error.message);
+      if (res.ok) {
+        setUser(data);
       }
-    };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-    getUser();
-  }, [comment]);
+  getUser();
+}, [comment]);
 
   const handleEdit = () => {
     setIsEditing(true);
     setEditedContent(comment.content);
   };
-
-  const handleSave = async () => {
+const handleSave = async () => {
   try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/editComment/${comment._id}`, {
+    const res = await fetch(`https://news-phi-rose-76.vercel.app/api/comment/editComment/${comment._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

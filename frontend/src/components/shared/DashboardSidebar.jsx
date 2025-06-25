@@ -13,10 +13,11 @@ const DashboardSidebar = () => {
 
   const handleSignout = async() => {
     try {
-       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/signout`, {
-      method: "POST",
-      credentials: "include",
-    });
+      const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/signout`, {
+  method: "POST",
+  credentials: "include",
+});
+
       const data = await res.json()
   
       if (!res.ok) {

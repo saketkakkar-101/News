@@ -60,7 +60,8 @@ const DashboardProfile = () => {
         ...formData,
         profilePicture,
       }
-     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/update/${currentUser._id}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/update/${currentUser._id}`, {
+
   method: "PUT",
   headers: {
     "Content-Type":"application/json"
@@ -91,7 +92,8 @@ const DashboardProfile = () => {
   try {
     dispatch(deleteUserStart())
 
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/delete/${currentUser._id}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/delete/${currentUser._id}`, {
+
   method: "DELETE",
   credentials: "include",
 });
@@ -111,7 +113,8 @@ const DashboardProfile = () => {
 
 const handleSignout = async() => {
   try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/signout`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/signout`, {
+
   method: "POST",
   credentials: "include",
 });

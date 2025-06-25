@@ -17,7 +17,8 @@ const [postIdToDelete, setPostIdToDelete] = useState("")
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/post/getposts?userId=${currentUser._id}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/getposts?userId=${currentUser._id}`, {
+
   credentials: "include",
 });
 
@@ -45,7 +46,8 @@ const handleShowMore = async() => {
 const startIndex = userPosts.length 
 
 try {
-const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`, {
+
   credentials: "include",
 });
 
@@ -69,7 +71,8 @@ if (res.ok) {
 const handleDeletePost = async() => {
   // console.log(postIdToDelete);
 try {
-  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/post/deletepost/${postIdToDelete}/${currentUser._id}`, {
+const res = await fetch(`https://news-phi-rose-76.vercel.app/api/post/deletepost/${postIdToDelete}/${currentUser._id}`, {
+
   method: "DELETE",
   credentials: "include",
 });
