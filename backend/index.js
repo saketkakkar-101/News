@@ -60,12 +60,13 @@ const app = express();
 
 import cors from "cors";
 
-app.use(
-  cors({
-    origin: "https://news-bi1a.vercel.app", // 👈 your actual frontend deployed URL
-    credentials: true,
-  })
-);
+
+
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
+
 
 
 app.use(express.json());
