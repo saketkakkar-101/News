@@ -10,9 +10,10 @@ const BottomNavBar = () => {
   const dispatch = useDispatch()
   const handleSignout = async() => {
     try {
-      const res = await fetch("/api/user/signout" , {
-        method: "POST"
-      })
+       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/signout`, {
+      method: "POST",
+      credentials: "include", // 👈 this is necessary for cookies
+    });
       const data = await res.json()
   
       if (!res.ok) {

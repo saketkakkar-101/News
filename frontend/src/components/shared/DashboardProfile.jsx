@@ -60,13 +60,15 @@ const DashboardProfile = () => {
         ...formData,
         profilePicture,
       }
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify(updateProfile)
-      })
+     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/update/${currentUser._id}`, {
+  method: "PUT",
+  headers: {
+    "Content-Type":"application/json"
+  },
+  body: JSON.stringify(updateProfile),
+  credentials: "include",
+});
+
 
       const data = await res.json()
 
@@ -89,9 +91,11 @@ const DashboardProfile = () => {
   try {
     dispatch(deleteUserStart())
 
-    const res = await fetch(`/api/user/delete/${currentUser._id}` , {
-      method: "DELETE",
-    })
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/delete/${currentUser._id}`, {
+  method: "DELETE",
+  credentials: "include",
+});
+
     const data = await res.json()
 
     if (!res.ok) {
@@ -107,9 +111,11 @@ const DashboardProfile = () => {
 
 const handleSignout = async() => {
   try {
-    const res = await fetch("/api/user/signout" , {
-      method: "POST"
-    })
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/signout`, {
+  method: "POST",
+  credentials: "include",
+});
+
     const data = await res.json()
 
     if (!res.ok) {

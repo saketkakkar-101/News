@@ -24,16 +24,19 @@ const handleSubmit = async (e) => {
     }
 
 try {
-  const res = await fetch("/api/comment/create" , {
-    method: "POST",
-    headers: {
-      "Content-Type" : "application/json"
-    }, body: JSON.stringify({
-      content : comment,
-      postId,
-      userId : currentUser._id
-    })
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/create`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  credentials: "include", // ✅ very important
+  body: JSON.stringify({
+    content: comment,
+    postId,
+    userId: currentUser._id
   })
+});
+
 
 const data = await res.json()
 
@@ -54,7 +57,10 @@ if(res.ok){
 useEffect(() => {
   const getComments = async() => {
     try {
-      const res = await fetch(`/api/comment/getPostComments/${postId}`)
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/getPostComments/${postId}`, {
+  credentials: "include"
+})
+
 
       if (res.ok) {
         const data = await res.json()
@@ -76,9 +82,10 @@ const handleLike = async(commentId) => {
       return
     }
 
-    const res = await fetch(`/api/comment/likeComment/${commentId}` , {
-      method: "PUT"
-    })
+   const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+  method: "PUT"
+})
+
 
     if (res.ok) {
       const data = await res.json()
@@ -114,9 +121,11 @@ const handleDelete = async(commentId) => {
       return
     }
 
-    const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
-      method: "DELETE"
-    })
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/deleteComment/${commentId}`, {
+  method: "DELETE",
+  credentials: "include"
+})
+
 
     if (res.ok) {
       const data = await res.json()

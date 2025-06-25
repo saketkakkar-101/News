@@ -28,8 +28,9 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`/api/user/${comment.userId}`);
-
+         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/${comment.userId}`, {
+        credentials: "include",
+      });
         const data = await res.json();
 
         if (res.ok) {
@@ -49,25 +50,27 @@ const Comment = ({ comment, onLike, onEdit, onDelete }) => {
   };
 
   const handleSave = async () => {
-    try {
-      const res = await fetch(`/api/comment/editComment/${comment._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: editedContent,
-        }),
-      });
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/editComment/${comment._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        content: editedContent,
+      }),
+    });
 
-      if (res.ok) {
-        setIsEditing(false);
-        onEdit(comment, editedContent);
-      }
-    } catch (error) {
-      console.log(error);
+    if (res.ok) {
+      setIsEditing(false);
+      onEdit(comment, editedContent);
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
   return (
     <div className="flex p-4 border-b border-slate-300 text-sm gap-2">

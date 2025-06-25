@@ -48,7 +48,8 @@ const location = useLocation()
 
       const searchQuery = urlParams.toString()
 
-      const res = await fetch(`/api/post/getposts?${searchQuery}`)
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getposts?${searchQuery}`);
+
 
       if (!res.ok) {
         setLoading(false)
@@ -100,7 +101,8 @@ const handleShowMore = async () => {
 
   const searchQuery = urlParams.toString()
 
-  const res = await fetch(`/api/post/getposts?${searchQuery}`)
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/post/getposts?${searchQuery}`);
+
 
   if (!res.ok) {
     return
