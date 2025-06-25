@@ -42,12 +42,12 @@
 //         message,
 //     })
 // })
-
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 import cookieParser from "cookie-parser";
+
+// Routes
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
@@ -60,16 +60,24 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log("MongoDB Error:", err));
 
+// 👇 Root route for "/"
+app.get("/", (req, res) => {
+  res.send("✅ Backend is live on Vercel!");
+});
+
+// 👇 API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 
+// 👇 Global Error Handler
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
@@ -81,6 +89,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ❌ NO app.listen()
-// ✅ Just export the app for Vercel
+// ✅ Vercel expects export, not app.listen()
 export default app;
