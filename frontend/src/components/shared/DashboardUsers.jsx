@@ -22,7 +22,7 @@ const [userIdToDelete, setUserIdToDelete] = useState("")
       try {
         const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/getusers`, {
   method: "GET",
-  credentials: "include", // 👈 important for sending cookies
+  // credentials: "include", // 👈 important for sending cookies
 });
 
  const data = await res.json()
@@ -51,7 +51,7 @@ const startIndex = users.length
 try {
   const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/getusers?startIndex=${startIndex}`, {
     method: "GET",
-    credentials: "include", // 👈 yeh lagana zaruri hai for cookie-based auth
+    // credentials: "include", // 👈 yeh lagana zaruri hai for cookie-based auth
   });
   
 
@@ -74,7 +74,7 @@ const handleDeleteUser = async() => {
 try {
   const res = await fetch(`https://news-phi-rose-76.vercel.app/api/user/delete/${userIdToDelete}`, {
     method: "DELETE",
-    credentials: "include", // 👈 add this
+    // credentials: "include", // 👈 add this
   });
     const data = await res.json()
 
