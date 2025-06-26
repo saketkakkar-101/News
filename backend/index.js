@@ -65,13 +65,15 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://news-2dua-sakets-projects-77a489fd.vercel.app", // ✅ your actual frontend deployed URL
-      "https://news-2dua.vercel.app",                          // ✅ optional: if this is a custom or preview domain
+      "https://news-2dua.vercel.app",
+      "https://news-2dua-git-main-sakets-projects-77a489fd.vercel.app",
+      "https://news-2dua-c0u5b1ffg-sakets-projects-77a489fd.vercel.app"
     ],
-    credentials: true,  // ✅ must be true when using cookies
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 
 
 
