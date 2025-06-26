@@ -54,8 +54,8 @@ export const signin = async(req,res,next) => {
 
          res.status(200).cookie("access_token", token, {
           httpOnly: true,
-          secure: true,          // ✅ Required on HTTPS (Vercel)
-          sameSite: "None",      // ✅ Required for cross-site cookies
+          // secure: true,          // ✅ Required on HTTPS (Vercel)
+          // sameSite: "None",      // ✅ Required for cross-site cookies
         }).json(rest);
         
       } catch (error) {
