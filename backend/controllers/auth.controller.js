@@ -54,13 +54,16 @@ export const signin = async(req,res,next) => {
 
          res.status(200).cookie("access_token", token, {
           httpOnly: true,
-          // secure: true,          // ✅ Required on HTTPS (Vercel)
-          // sameSite: "None",      // ✅ Required for cross-site cookies
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         }).json(rest);
         
+        
       } catch (error) {
-        next(error)
+        console.error("SIGNIN ERROR", error);
+        next(error);
       }
+      
 }
 
 export const google = async (req, res, next) => {
